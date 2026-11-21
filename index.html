@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersecurity Incident Tracker</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🛡️</div>
+      <div>
+        <h1>IncidentWatch</h1>
+        <p>Cybersecurity Incident Tracker</p>
+      </div>
+    </div>
+    <div class="live"><span class="dot"></span> System Active</div>
+  </header>
+
+  <main class="container">
+    <!-- STATISTICS -->
+    <section class="stats">
+      <div class="stat-card">
+        <p>Total</p>
+        <span id="statTotal">0</span>
+      </div>
+      <div class="stat-card open">
+        <p>Open</p>
+        <span id="statOpen">0</span>
+      </div>
+      <div class="stat-card investigating">
+        <p>Investigating</p>
+        <span id="statInvestigating">0</span>
+      </div>
+      <div class="stat-card resolved">
+        <p>Resolved</p>
+        <span id="statResolved">0</span>
+      </div>
+      <div class="stat-card critical">
+        <p>Critical / High</p>
+        <span id="statCritical">0</span>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2 id="formTitle">New Incident Report</h2>
+        <span class="tag">FORM</span>
+      </div>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label for="title">Incident Title</label>
+          <input type="text" id="title" maxlength="100" placeholder="e.g. Fake bank email received by staff" />
+        </div>
+
+        <div class="field">
+          <label for="type">Incident Type</label>
+          <select id="type">
+            <option value="">Select type</option>
+            <option>Phishing</option>
+            <option>Malware</option>
+            <option>Suspicious Login</option>
+            <option>Social Engineering</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="severity">Severity</label>
+          <select id="severity">
+            <option value="">Select severity</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="date">Date</label>
+          <input type="date" id="date" />
+        </div>
+
+        <div class="field full">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3" maxlength="500" placeholder="What happened? Who or what was affected?"></textarea>
+        </div>
+      </div>
+
+      <p id="error" class="error"></p>
+
+      <div class="form-actions">
+        <button class="btn" id="submitBtn" onclick="saveIncident()">+ Log Incident</button>
+        <button class="cancel-btn" id="cancelBtn" onclick="cancelEdit()" style="display: none">Cancel Edit</button>
+      </div>
+    </section>
+
+    <!-- INCIDENT LOG -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Incident Log</h2>
+        <span class="tag">RECORDS</span>
+      </div>
+
+      <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search by title..." oninput="updateTable()" />
+
+        <select id="filterSeverity" onchange="updateTable()">
+          <option value="All">All Severities</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+          <option>Critical</option>
+        </select>
+
+        <select id="filterStatus" onchange="updateTable()">
+          <option value="All">All Statuses</option>
+          <option>Open</option>
+          <option>Investigating</option>
+          <option>Resolved</option>
+        </select>
+
+        <select id="filterType" onchange="updateTable()">
+          <option value="All">All Types</option>
+          <option>Phishing</option>
+          <option>Malware</option>
+          <option>Suspicious Login</option>
+          <option>Social Engineering</option>
+        </select>
+
+        <button class="reset-btn" onclick="resetFilters()">Reset</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Severity</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <p id="emptyMessage" class="empty">No incidents found.</p>
+    </section>
+
+    <p class="footer">IncidentWatch </p>
+  </main>
+</body>
+<script src="./script.js"></script>
+</html>
